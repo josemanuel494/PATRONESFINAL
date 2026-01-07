@@ -1,0 +1,29 @@
+==========================================
+           TICKET DE RESERVA              
+              CINE OCINE                  
+==========================================
+
+Código de Reserva: R005
+Fecha de Reserva: 07/01/2026
+
+DATOS DEL CLIENTE:
+  Nombre: Ana Martín
+  DNI: 99999999Z
+  Tipo de Abono: VIP
+
+DETALLES DE LA SESIÓN:
+  Película: Avatar 2
+  Tipo: 2D
+  Fecha: 08/01/2026
+  Hora: 19:00
+  Sala: 3
+  Número de Entradas: 1
+
+EXTRAS:
+  Sin extras
+
+PRECIO TOTAL: 7,20€
+  (Descuento VIP aplicado)
+
+Gracias por confiar en Ocine
+Centro Comercial Quadernillos

@@ -1,0 +1,29 @@
+==========================================
+           TICKET DE RESERVA              
+              CINE OCINE                  
+==========================================
+
+Código de Reserva: R002
+Fecha de Reserva: 07/01/2026
+
+DATOS DEL CLIENTE:
+  Nombre: Juan Pérez
+  DNI: 12345678A
+  Tipo de Abono: Básico
+
+DETALLES DE LA SESIÓN:
+  Película: Spider-Man 3D
+  Tipo: 3D
+  Fecha: 08/01/2026
+  Hora: 20:00
+  Sala: 2
+  Número de Entradas: 1
+
+EXTRAS:
+  Palomitas, Bebida
+
+PRECIO TOTAL: 14,00€
+  (Descuento Básico aplicado)
+
+Gracias por confiar en Ocine
+Centro Comercial Quadernillos

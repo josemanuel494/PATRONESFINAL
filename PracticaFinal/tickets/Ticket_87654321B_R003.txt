@@ -1,0 +1,29 @@
+==========================================
+           TICKET DE RESERVA              
+              CINE OCINE                  
+==========================================
+
+Código de Reserva: R003
+Fecha de Reserva: 07/01/2026
+
+DATOS DEL CLIENTE:
+  Nombre: María García
+  DNI: 87654321B
+  Tipo de Abono: Premium
+
+DETALLES DE LA SESIÓN:
+  Película: Spider-Man 3D
+  Tipo: 3D
+  Fecha: 08/01/2026
+  Hora: 20:00
+  Sala: 2
+  Número de Entradas: 2
+
+EXTRAS:
+  Combo (Palomitas + Bebida)
+
+PRECIO TOTAL: 19,00€
+  (Descuento Premium aplicado)
+
+Gracias por confiar en Ocine
+Centro Comercial Quadernillos

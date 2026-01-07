@@ -1,0 +1,32 @@
+==========================================
+          INFORME DE SESIÓN               
+              CINE OCINE                  
+==========================================
+
+Código de Sesión: S002
+
+PELÍCULA PROYECTADA:
+  Título: Spider-Man 3D
+  Director: Jon Watts
+  Tipo: 3D
+  Duración: 148 min
+
+INFORMACIÓN DE LA SESIÓN:
+  Fecha: 08/01/2026
+  Hora: 20:00
+  Sala: 2
+  Estado: Programada
+
+ESTADÍSTICAS:
+  Aforo Total: 50 butacas
+  Entradas Vendidas: 5
+  Plazas Disponibles: 45
+  Porcentaje de Ocupación: 10,00%
+
+INGRESOS:
+  Precio Base: 8,00€
+  Recargo Proyección: 2,00€
+  Ingresos Totales: 51,00€
+
+Gracias por confiar en Ocine
+Centro Comercial Quadernillos
