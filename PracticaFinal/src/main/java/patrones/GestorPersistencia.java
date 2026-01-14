@@ -55,6 +55,7 @@ public class GestorPersistencia {
         
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(archivo))) {
             datos = (DatosCine) ois.readObject();
+            reanudarObservadores();
             System.out.println("Datos cargados correctamente desde " + ARCHIVO_DATOS);
             return true;
         } catch (IOException | ClassNotFoundException e) {
@@ -90,5 +91,17 @@ public class GestorPersistencia {
      */
     public void inicializarDatosPrueba() {
         datos.inicializarDatosPrueba();
+    }
+
+    private void reanudarObservadores() {
+        if (datos == null) {
+            return;
+        }
+        for (Reserva reserva : datos.getReservas()) {
+            Sesion sesion = reserva.getSesion();
+            if (sesion != null) {
+                sesion.agregarObservador(reserva);
+            }
+        }
     }
 }

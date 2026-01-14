@@ -68,14 +68,15 @@ public class ReservaBuilder {
         Reserva reserva = new Reserva(codigoReserva, cliente, sesion, numEntradas);
         
         // Aplicar decoradores según los extras seleccionados
-        if (conPalomitas) {
-            reserva = new PalomitasDecorator(reserva);
-        }
-        if (conBebida) {
-            reserva = new BebidaDecorator(reserva);
-        }
         if (conCombo) {
             reserva = new ComboDecorator(reserva);
+        } else {
+            if (conPalomitas) {
+                reserva = new PalomitasDecorator(reserva);
+            }
+            if (conBebida) {
+                reserva = new BebidaDecorator(reserva);
+            }
         }
         
         // Calcular precio final usando Strategy

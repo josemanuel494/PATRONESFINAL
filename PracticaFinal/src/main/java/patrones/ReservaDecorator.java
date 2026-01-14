@@ -21,8 +21,8 @@ public abstract class ReservaDecorator extends Reserva {
     protected Reserva reservaDecorada;
     
     public ReservaDecorator(Reserva reserva) {
-        super(reserva.getCodigoReserva(), reserva.getCliente(), 
-              reserva.getSesion(), reserva.getNumEntradas());
+        super(reserva.getCodigoReserva(), reserva.getCliente(),
+              reserva.getSesion(), reserva.getNumEntradas(), false);
         this.reservaDecorada = reserva;
     }
     

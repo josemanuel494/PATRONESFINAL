@@ -28,6 +28,14 @@ public class Reserva implements Serializable, ObservadorSesion {
      * Constructor de Reserva
      */
     public Reserva(String codigoReserva, Cliente cliente, Sesion sesion, int numEntradas) {
+        this(codigoReserva, cliente, sesion, numEntradas, true);
+    }
+
+    /**
+     * Constructor interno para evitar re-registrar observadores al decorar.
+     */
+    protected Reserva(String codigoReserva, Cliente cliente, Sesion sesion, int numEntradas,
+                      boolean registrarObservador) {
         this.codigoReserva = codigoReserva;
         this.cliente = cliente;
         this.sesion = sesion;
@@ -35,11 +43,12 @@ public class Reserva implements Serializable, ObservadorSesion {
         this.fechaHoraReserva = LocalDateTime.now();
         this.estado = EstadoReserva.PENDIENTE;
         this.precioFinal = 0.0;
-        
-        // Registrarse como observador de la sesión
-        sesion.agregarObservador(this);
+
+        if (registrarObservador && sesion != null) {
+            sesion.agregarObservador(this);
+        }
     }
-    
+
     /**
      * Calcula el precio base de las entradas (sin extras)
      * Precio entrada = Precio base sesión + Recargo proyección

@@ -70,21 +70,21 @@ public class DatosCine implements Serializable {
         // Crear empleado admin
         Cliente admin = new Cliente("00000000A", "Administrador", 
                                    "admin@ocine.com", "999999999", 
-                                   "admin", TipoAbono.VIP);
+                                   Cliente.hashContrasena("admin"), TipoAbono.VIP);
         clientes.add(admin);
         
         // Crear algunos clientes de prueba
         clientes.add(new Cliente("12345678A", "Juan Pérez", 
                                 "juan@email.com", "611111111", 
-                                "1234", TipoAbono.BASICO));
+                                Cliente.hashContrasena("1234"), TipoAbono.BASICO));
         
         clientes.add(new Cliente("87654321B", "María García", 
                                 "maria@email.com", "622222222", 
-                                "1234", TipoAbono.PREMIUM));
+                                Cliente.hashContrasena("1234"), TipoAbono.PREMIUM));
         
         clientes.add(new Cliente("11111111C", "Carlos López", 
                                 "carlos@email.com", "633333333", 
-                                "1234", TipoAbono.VIP));
+                                Cliente.hashContrasena("1234"), TipoAbono.VIP));
         
         System.out.println("Datos de prueba inicializados");
     }

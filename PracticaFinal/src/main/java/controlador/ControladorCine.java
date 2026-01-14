@@ -44,7 +44,7 @@ public class ControladorCine {
      */
     public Cliente login(String email, String contrasena) throws CredencialesInvalidasException {
         Cliente cliente = datos.getClientes().stream()
-            .filter(c -> c.getEmail().equals(email) && c.getContrasena().equals(contrasena))
+            .filter(c -> c.getEmail().equals(email) && c.verificarContrasena(contrasena))
             .findFirst()
             .orElseThrow(() -> new CredencialesInvalidasException());
         
@@ -243,7 +243,8 @@ public class ControladorCine {
             throw new ClienteDuplicadoException(dni);
         }
         
-        Cliente cliente = new Cliente(dni, nombre, email, telefono, contrasena, tipoAbono);
+        String contrasenaHasheada = Cliente.hashContrasena(contrasena);
+        Cliente cliente = new Cliente(dni, nombre, email, telefono, contrasenaHasheada, tipoAbono);
         datos.getClientes().add(cliente);
         gestor.guardarDatos();
     }

@@ -5,6 +5,9 @@
 package modelo;
 
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 
 /**
@@ -94,6 +97,25 @@ public class Cliente implements Serializable {
     
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
+    }
+
+    public boolean verificarContrasena(String contrasenaTextoPlano) {
+        return contrasena.equals(contrasenaTextoPlano)
+            || contrasena.equals(hashContrasena(contrasenaTextoPlano));
+    }
+
+    public static String hashContrasena(String contrasenaTextoPlano) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] encoded = digest.digest(contrasenaTextoPlano.getBytes(StandardCharsets.UTF_8));
+            StringBuilder sb = new StringBuilder();
+            for (byte value : encoded) {
+                sb.append(String.format("%02x", value));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException("No se pudo inicializar el hash de contraseña", e);
+        }
     }
     
     public void setTipoAbono(TipoAbono tipoAbono) {
