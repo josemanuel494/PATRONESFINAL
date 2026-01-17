@@ -19,11 +19,21 @@ public class ClienteFrame extends javax.swing.JFrame {
     
     private final ControladorCine controlador;
     private final Cliente cliente;
-
+    private String codigoSesionSeleccionada = null;
+    
     public ClienteFrame(ControladorCine controlador, Cliente cliente) {
         this.controlador = controlador;
         this.cliente = cliente;
         initComponents();
+        configurarTablaCartelera();
+        PanelReserva.setVisible(false);
+        RealizarReserva.setEnabled(false);
+        ConfirmarReserva.setEnabled(false);
+        PrecioEstimado.setEditable(false);
+
+        configurarEventosCartelera();
+        cargarCartelera();
+
         cargarMiInformacion();
         configurarTablaMisReservas();
         cargarMisReservas();
@@ -362,11 +372,49 @@ public class ClienteFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
+        PanelReserva.setVisible(false);
+        ConfirmarReserva.setEnabled(false);
+        RealizarReserva.setEnabled(false);
+        codigoSesionSeleccionada = null;
+        cargarCartelera();
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void RealizarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RealizarReservaActionPerformed
-        // TODO add your handling code here:
+        int fila = jTable1.getSelectedRow();
+        if (fila == -1) {
+            javax.swing.JOptionPane.showMessageDialog(
+                this, "Selecciona una sesión de la tabla.", "No hay selección",
+                javax.swing.JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        codigoSesionSeleccionada = jTable1.getValueAt(fila, 0).toString();
+        modelo.Sesion sesion = controlador.buscarSesionPorCodigo(codigoSesionSeleccionada);
+
+        if (sesion == null) {
+            javax.swing.JOptionPane.showMessageDialog(
+                this, "La sesión seleccionada ya no existe.", "Error",
+                javax.swing.JOptionPane.ERROR_MESSAGE
+            );
+            cargarCartelera();
+            return;
+        }
+
+        // Preparar spinner: mínimo 1, máximo plazas disponibles
+        int max = Math.max(1, sesion.getPlazasDisponibles());
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 1, max, 1));
+
+        // Reset extras
+        jCheckBox1.setSelected(false);
+        jCheckBox2.setSelected(false);
+        jCheckBox3.setSelected(false);
+
+        PanelReserva.setVisible(true);
+        ConfirmarReserva.setEnabled(true);
+
+        actualizarPrecioEstimado();
+
     }//GEN-LAST:event_RealizarReservaActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
@@ -378,7 +426,53 @@ public class ClienteFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox3ActionPerformed
 
     private void ConfirmarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmarReservaActionPerformed
-        // TODO add your handling code here:
+        if (codigoSesionSeleccionada == null) {
+            javax.swing.JOptionPane.showMessageDialog(
+                this, "Selecciona una sesión primero.", "Error",
+                javax.swing.JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        int entradas = (int) jSpinner1.getValue();
+        boolean palomitas = jCheckBox1.isSelected();
+        boolean bebida = jCheckBox2.isSelected();
+        boolean combo = jCheckBox3.isSelected();
+
+        String codigoReserva = generarCodigoReserva();
+
+        try {
+            controlador.crearReserva(
+                codigoReserva,
+                cliente,
+                codigoSesionSeleccionada,
+                entradas,
+                palomitas,
+                bebida,
+                combo
+            );
+
+            javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "Reserva creada correctamente.\nCódigo: " + codigoReserva,
+                "Reserva confirmada",
+                javax.swing.JOptionPane.INFORMATION_MESSAGE
+            );
+
+            // Refrescar todo
+            PanelReserva.setVisible(false);
+            ConfirmarReserva.setEnabled(false);
+            cargarCartelera();
+            cargarMisReservas();
+
+        } catch (Exception ex) {
+            javax.swing.JOptionPane.showMessageDialog(
+                this,
+                ex.getMessage(),
+                "No se pudo crear la reserva",
+                javax.swing.JOptionPane.ERROR_MESSAGE
+            );
+        }
     }//GEN-LAST:event_ConfirmarReservaActionPerformed
 
     private void CancelarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarReservaActionPerformed
@@ -519,8 +613,145 @@ public class ClienteFrame extends javax.swing.JFrame {
         }
     }
 
+    private void configurarTablaCartelera() {
+        // Selección por fila completa
+        jTable1.setRowSelectionAllowed(true);
+        jTable1.setColumnSelectionAllowed(false);
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        // No editable
+        jTable1.setDefaultEditor(Object.class, null);
+
+        // No reordenar columnas
+        jTable1.getTableHeader().setReorderingAllowed(false);
+    }
+
+    private void configurarEventosCartelera() {
+        // Cuando seleccionas una sesión -> habilitar botón
+        jTable1.getSelectionModel().addListSelectionListener(e -> {
+            if (e.getValueIsAdjusting()) return;
+
+            int fila = jTable1.getSelectedRow();
+            boolean haySeleccion = (fila != -1);
+
+            RealizarReserva.setEnabled(haySeleccion);
+            ConfirmarReserva.setEnabled(false);
+            PanelReserva.setVisible(false);
+            codigoSesionSeleccionada = null;
+
+            if (haySeleccion) {
+                codigoSesionSeleccionada = jTable1.getValueAt(fila, 0).toString();
+            }
+        });
+
+        // Spinner cambia -> recalcular precio
+        jSpinner1.addChangeListener(e -> actualizarPrecioEstimado());
+
+        // Checkboxes cambian -> recalcular precio y gestionar exclusividad del combo
+        jCheckBox1.addActionListener(e -> {
+            if (jCheckBox3.isSelected()) jCheckBox1.setSelected(false);
+            actualizarPrecioEstimado();
+        });
+
+        jCheckBox2.addActionListener(e -> {
+            if (jCheckBox3.isSelected()) jCheckBox2.setSelected(false);
+            actualizarPrecioEstimado();
+        });
+
+        jCheckBox3.addActionListener(e -> {
+            if (jCheckBox3.isSelected()) {
+                // si combo, anulamos palomitas/bebida
+                jCheckBox1.setSelected(false);
+                jCheckBox2.setSelected(false);
+            }
+            actualizarPrecioEstimado();
+        });
+    }
+
+    private void cargarCartelera() {
+        javax.swing.table.DefaultTableModel model =
+            (javax.swing.table.DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+
+        // Género seleccionado
+        String generoStr = (String) jComboBox1.getSelectedItem();
+        modelo.Genero genero = modelo.Genero.valueOf(generoStr);
+
+        for (modelo.Sesion s : controlador.obtenerSesionesDisponibles()) {
+            if (s.getPelicula().getGenero() != genero) continue;
+
+            modelo.Pelicula p = s.getPelicula();
+
+            double precioBase = s.getPrecioBase();
+            double recargo = p.getRecargoProyeccion();
+            double precioEntrada = s.calcularPrecioEntrada();
+
+            Object[] fila = new Object[] {
+                s.getCodigoSesion(),                 // 0 Codigo Sesion
+                p.getTitulo(),                       // 1 Pelicula
+                p.getGenero(),                       // 2 Genero
+                p.getTipoProyeccion(),               // 3 Tipo (si no existe, ver nota abajo)
+                s.getFecha(),                        // 4 Fecha
+                s.getHoraInicio(),                   // 5 Hora
+                s.getSala().getNumero(),             // 6 Sala
+                String.format("%.2f €", precioBase), // 7 Precio Base
+                String.format("%.2f €", recargo),    // 8 Recargo
+                String.format("%.2f €", precioEntrada), // 9 Precio Final (precio entrada)
+                s.getPlazasDisponibles()             // 10 Plazas disponibles
+            };
+
+            model.addRow(fila);
+        }
+    }
+
+    private void actualizarPrecioEstimado() {
+        if (codigoSesionSeleccionada == null) {
+            PrecioEstimado.setText("");
+            return;
+        }
+
+        modelo.Sesion sesion = controlador.buscarSesionPorCodigo(codigoSesionSeleccionada);
+        if (sesion == null) {
+            PrecioEstimado.setText("");
+            return;
+        }
+
+        int entradas = (int) jSpinner1.getValue();
+        double precioEntrada = sesion.calcularPrecioEntrada();
+        double subtotalEntradas = precioEntrada * entradas;
+
+        // Descuento por abono (porcentaje)
+        double descuento = cliente.getTipoAbono().getPorcentajeDescuento();
+        double totalEntradas = subtotalEntradas * (1.0 - descuento);
+
+        // Extras (asumimos combo excluyente)
+        double extras = 0.0;
+        if (jCheckBox3.isSelected()) {
+            extras += 4.0;
+        } else {
+            if (jCheckBox1.isSelected()) extras += 3.0;
+            if (jCheckBox2.isSelected()) extras += 2.0;
+        }
+
+        double total = totalEntradas + extras;
+        PrecioEstimado.setText(String.format("%.2f €", total));
+    }
+
+    private String generarCodigoReserva() {
+        java.util.Random rnd = new java.util.Random();
+        String codigo;
+        do {
+            int n = 1000 + rnd.nextInt(9000); // R1000..R9999
+            codigo = "R" + n;
+        } while (controlador.buscarReservaPorCodigo(codigo) != null);
+        return codigo;
+    }
 
 
+    
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CancelarReserva;
     private javax.swing.JButton ConfirmarReserva;
