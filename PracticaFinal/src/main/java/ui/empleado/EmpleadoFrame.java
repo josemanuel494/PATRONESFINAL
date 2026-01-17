@@ -35,7 +35,14 @@ public class EmpleadoFrame extends javax.swing.JFrame {
 
         setTitle("OCine - Empleado");
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                volverALogin();
+            }
+        });
         
         configurarFiltrosPeliculas(); 
         configurarFiltrosSesiones();
@@ -52,6 +59,24 @@ public class EmpleadoFrame extends javax.swing.JFrame {
         configurarInformes();
 
     }
+    
+    private void volverALogin() {
+        int resp = javax.swing.JOptionPane.showConfirmDialog(
+                this,
+                "¿Cerrar sesión y volver al login?",
+                "Salir",
+                javax.swing.JOptionPane.YES_NO_OPTION
+        );
+        if (resp != javax.swing.JOptionPane.YES_OPTION) return;
+
+        controlador.logout();
+
+        ui.Login login = new ui.Login(controlador);
+        login.setVisible(true);
+
+        dispose();
+    }
+
     
     private void cargarTablaPeliculas() {
         String[] cols = {"Código", "Título", "Director", "Año", "Duración", "Género", "Tipo"};
@@ -510,6 +535,7 @@ public class EmpleadoFrame extends javax.swing.JFrame {
         btnActualizarPeliculas = new javax.swing.JButton();
         btnAlta = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+        btnModificarPelicula = new javax.swing.JButton();
         panelSesiones = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -536,6 +562,7 @@ public class EmpleadoFrame extends javax.swing.JFrame {
         btnActualizarClientes = new javax.swing.JButton();
         btnAltaCliente = new javax.swing.JButton();
         btnEliminarCliente = new javax.swing.JButton();
+        btnModificarCliente = new javax.swing.JButton();
         pane1Clientes = new javax.swing.JScrollPane();
         tblClientes = new javax.swing.JTable();
         panelReservas = new javax.swing.JPanel();
@@ -677,6 +704,14 @@ public class EmpleadoFrame extends javax.swing.JFrame {
         });
         jPanel3.add(btnEliminar);
 
+        btnModificarPelicula.setText("Modificar");
+        btnModificarPelicula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarPeliculaActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnModificarPelicula);
+
         javax.swing.GroupLayout panelPeliculasLayout = new javax.swing.GroupLayout(panelPeliculas);
         panelPeliculas.setLayout(panelPeliculasLayout);
         panelPeliculasLayout.setHorizontalGroup(
@@ -686,9 +721,10 @@ public class EmpleadoFrame extends javax.swing.JFrame {
                 .addGroup(panelPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelFiltrosPeliculas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPeliculasLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 843, Short.MAX_VALUE)))
+                        .addGroup(panelPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         panelPeliculasLayout.setVerticalGroup(
             panelPeliculasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -696,10 +732,10 @@ public class EmpleadoFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(panelFiltrosPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(67, 67, 67))
+                .addGap(137, 137, 137))
         );
 
         tabsEmpleado.addTab("Películas", panelPeliculas);
@@ -924,6 +960,14 @@ public class EmpleadoFrame extends javax.swing.JFrame {
             }
         });
         jPanel5.add(btnEliminarCliente);
+
+        btnModificarCliente.setText("Modificar");
+        btnModificarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarClienteActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnModificarCliente);
 
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1504,6 +1548,56 @@ public class EmpleadoFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGenerarInformeActionPerformed
 
+    private void btnModificarPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarPeliculaActionPerformed
+        int viewRow = tblPeliculas.getSelectedRow();
+        if (viewRow < 0) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Selecciona una película.", "Modificar", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int modelRow = tblPeliculas.convertRowIndexToModel(viewRow);
+        String codigo = tblPeliculas.getModel().getValueAt(modelRow, 0).toString(); // col 0 Código
+
+        modelo.Pelicula p = controlador.buscarPeliculaPorCodigo(codigo);
+        if (p == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "No se encontró la película.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        AltaPeliculaDialog dlg = new AltaPeliculaDialog(this, true, controlador);
+        dlg.setModoEdicion(p);
+        dlg.setVisible(true);
+
+        if (dlg.isCreada()) {
+            cargarTablaPeliculas();
+        }
+    }//GEN-LAST:event_btnModificarPeliculaActionPerformed
+
+    private void btnModificarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarClienteActionPerformed
+        int viewRow = tblClientes.getSelectedRow();
+        if (viewRow < 0) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Selecciona un cliente.", "Modificar", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int modelRow = tblClientes.convertRowIndexToModel(viewRow);
+        String dni = tblClientes.getModel().getValueAt(modelRow, 0).toString(); // col 0 = DNI
+
+        modelo.Cliente c = controlador.buscarClientePorDNI(dni);
+        if (c == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "No se encontró el cliente.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        AltaClienteDialog dlg = new AltaClienteDialog(this, true, controlador);
+        dlg.setModoEdicion(c);
+        dlg.setVisible(true);
+
+        if (dlg.isCreado()) {
+            cargarTablaClientes();
+        }
+    }//GEN-LAST:event_btnModificarClienteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane JScrollPane2;
@@ -1523,6 +1617,8 @@ public class EmpleadoFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnLimpiarFiltros;
     private javax.swing.JButton btnLimpiarFiltrosReservas;
     private javax.swing.JButton btnLimpiarFiltrosSesiones;
+    private javax.swing.JButton btnModificarCliente;
+    private javax.swing.JButton btnModificarPelicula;
     private javax.swing.JButton btnOcupacionSesion;
     private javax.swing.JButton btnProgramarSesion;
     private javax.swing.JButton btnVerDetalleReserva;

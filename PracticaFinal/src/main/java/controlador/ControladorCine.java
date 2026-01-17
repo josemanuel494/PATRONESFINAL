@@ -129,6 +129,26 @@ public class ControladorCine {
             .collect(Collectors.toList());
     }
     
+    public void modificarPelicula(String codigo, String titulo, String director,
+                              int anio, int duracion, Genero genero,
+                              String sinopsis) throws EntidadNoEncontradaException {
+
+        Pelicula p = buscarPeliculaPorCodigo(codigo);
+        if (p == null) {
+            throw new EntidadNoEncontradaException("Película", codigo);
+        }
+
+        p.setTitulo(titulo);
+        p.setDirector(director);
+        p.setAnioEstreno(anio);
+        p.setDuracionMinutos(duracion);
+        p.setGenero(genero);
+        p.setSinopsis(sinopsis);
+
+        gestor.guardarDatos();
+    }
+
+    
     // ==================== GESTIÓN DE SESIONES ====================
     
     /**
@@ -278,6 +298,30 @@ public class ControladorCine {
         datos.getClientes().remove(cliente);
         gestor.guardarDatos();
     }
+    
+    public void modificarCliente(String dni, String nombreCompleto, String email,
+                                 String telefono, String nuevaContrasena, TipoAbono tipoAbono)
+            throws EntidadNoEncontradaException {
+
+        Cliente c = buscarClientePorDNI(dni);
+        if (c == null) {
+            throw new EntidadNoEncontradaException("Cliente", dni);
+        }
+
+        c.setNombreCompleto(nombreCompleto);
+        c.setEmail(email);
+        c.setTelefono(telefono);
+        c.setTipoAbono(tipoAbono);
+
+        // Contraseña opcional
+        if (nuevaContrasena != null && !nuevaContrasena.trim().isEmpty()) {
+            c.setContrasena(Cliente.hashContrasena(nuevaContrasena.trim()));
+        }
+
+        gestor.guardarDatos();
+    }
+
+
     
     // ==================== GESTIÓN DE RESERVAS ====================
     

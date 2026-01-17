@@ -21,10 +21,10 @@ public class MainReserva {
         ControladorCine controlador = new ControladorCine();
         
         try {
-                    Cliente cliente = controlador.buscarClientePorDNI("22222222D");
+                    Cliente cliente = controlador.buscarClientePorDNI("12345678A");
 
                     // Reserva con palomitas y bebida
-                    Reserva r = controlador.crearReserva("R006", cliente, "S003", 
+                    Reserva r = controlador.crearReserva("R007", cliente, "S001", 
                             1, true, true, false);
                     System.out.println("✓ Reserva con extras: " + r.getCodigoReserva());
                     System.out.println("  Precio: " + String.format("%.2f€", r.getPrecioFinal()));

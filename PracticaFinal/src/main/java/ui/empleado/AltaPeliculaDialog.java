@@ -11,9 +11,13 @@ import modelo.Genero;
 
 
 public class AltaPeliculaDialog extends javax.swing.JDialog {
-
+    // Alta película
     private final ControladorCine controlador;
     private boolean creada = false;
+    // Modificación película
+    private boolean modoEdicion = false;
+    private String codigoEdicion;
+
 
     public AltaPeliculaDialog(java.awt.Frame parent, boolean modal, ControladorCine controlador) {
         super(parent, modal);
@@ -37,6 +41,26 @@ public class AltaPeliculaDialog extends javax.swing.JDialog {
     
     public boolean isCreada() {
         return creada;
+    }
+
+    public void setModoEdicion(modelo.Pelicula p) {
+        modoEdicion = true;
+        codigoEdicion = p.getCodigo();
+
+        setTitle("Modificar película");
+
+        txtCodigo.setText(p.getCodigo());
+        txtCodigo.setEnabled(false); // no se edita el código
+
+        txtTitulo.setText(p.getTitulo());
+        txtDirector.setText(p.getDirector());
+        spnAnio.setValue(p.getAnioEstreno());
+        spnDuracion.setValue(p.getDuracionMinutos());
+        cmbGenero.setSelectedItem(p.getGenero());
+        cmbTipo.setEnabled(false); // tipo no se cambia (2D/3D/IMAX)
+        txtSinopsis.setText(p.getSinopsis());
+
+        btnCrear.setText("Guardar cambios");
     }
 
 
@@ -146,7 +170,7 @@ public class AltaPeliculaDialog extends javax.swing.JDialog {
                         .addComponent(btnCrear)
                         .addGap(30, 30, 30)
                         .addComponent(btnCancelar)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,14 +239,23 @@ public class AltaPeliculaDialog extends javax.swing.JDialog {
         }
 
         try {
-            controlador.crearPelicula(tipo, codigo, titulo, director, anio, duracion, genero, sinopsis);
-            creada = true;
-            JOptionPane.showMessageDialog(this, "Película creada correctamente.");
+            if (!modoEdicion) {
+                controlador.crearPelicula(tipo, codigo, titulo, director, anio, duracion, genero, sinopsis);
+                creada = true;
+                JOptionPane.showMessageDialog(this, "Película creada correctamente.");
+            } else {
+                controlador.modificarPelicula(codigoEdicion, titulo, director, anio, duracion, genero, sinopsis);
+                creada = true;
+                JOptionPane.showMessageDialog(this, "Película modificada correctamente.");
+            }
             dispose();
 
         } catch (PeliculaDuplicadaException ex) {
             JOptionPane.showMessageDialog(this, "Ya existe una película con ese código.", "Duplicada", JOptionPane.ERROR_MESSAGE);
 
+        } catch (excepciones.EntidadNoEncontradaException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "No encontrada", JOptionPane.ERROR_MESSAGE);
+        
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
