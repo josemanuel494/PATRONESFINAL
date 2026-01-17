@@ -6,6 +6,7 @@ package ui.cliente;
 
 import controlador.ControladorCine;
 import modelo.Cliente;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -20,11 +21,16 @@ public class ClienteFrame extends javax.swing.JFrame {
     private final ControladorCine controlador;
     private final Cliente cliente;
     private String codigoSesionSeleccionada = null;
+    private static final DateTimeFormatter FMT_FECHA = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private static final DateTimeFormatter FMT_HORA  = DateTimeFormatter.ofPattern("HH:mm");
     
     public ClienteFrame(ControladorCine controlador, Cliente cliente) {
         this.controlador = controlador;
         this.cliente = cliente;
         initComponents();
+        TextAbono.setEditable(false);
+        TextAbono.setText(obtenerDescuentoPorAbono() + " %");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -104,6 +110,8 @@ public class ClienteFrame extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         PrecioEstimado = new javax.swing.JTextField();
         ConfirmarReserva = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        TextAbono = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaMisReservas = new javax.swing.JTable();
@@ -130,7 +138,7 @@ public class ClienteFrame extends javax.swing.JFrame {
                         .addGap(532, 532, 532)
                         .addComponent(jLabel2))
                     .addComponent(jLabel1))
-                .addContainerGap(150, Short.MAX_VALUE))
+                .addContainerGap(152, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,7 +177,7 @@ public class ClienteFrame extends javax.swing.JFrame {
         jScrollPane3.setViewportView(jTable1);
         jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DRAMA", "COMEDIA", "TERROR", "CIENCIA_FICCION", "ACCION", "ANIMACION", "DOCUMENTAL" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TODAS", "DRAMA", "COMEDIA", "TERROR", "CIENCIA_FICCION", "ACCION", "ANIMACION", "DOCUMENTAL" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -189,21 +197,21 @@ public class ClienteFrame extends javax.swing.JFrame {
 
         jLabel6.setText("Extras");
 
-        jCheckBox1.setText("Palomitas (3$)");
+        jCheckBox1.setText("Palomitas (3€)");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox1ActionPerformed(evt);
             }
         });
 
-        jCheckBox2.setText("Bebida (2$)");
+        jCheckBox2.setText("Bebida (2€)");
         jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox2ActionPerformed(evt);
             }
         });
 
-        jCheckBox3.setText("Combo (4$)");
+        jCheckBox3.setText("Combo (4€)");
         jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox3ActionPerformed(evt);
@@ -225,58 +233,65 @@ public class ClienteFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel8.setText("Descuento de Abono");
+
         javax.swing.GroupLayout PanelReservaLayout = new javax.swing.GroupLayout(PanelReserva);
         PanelReserva.setLayout(PanelReservaLayout);
         PanelReservaLayout.setHorizontalGroup(
             PanelReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelReservaLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(PanelReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PanelReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(PanelReservaLayout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(TextAbono))
                     .addGroup(PanelReservaLayout.createSequentialGroup()
                         .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel6))
+                        .addGap(18, 18, 18)
+                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ConfirmarReserva)
                     .addGroup(PanelReservaLayout.createSequentialGroup()
                         .addComponent(jLabel7)
-                        .addGap(18, 18, 18)
-                        .addComponent(PrecioEstimado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(ConfirmarReserva))
+                        .addGap(38, 38, 38)
+                        .addComponent(PrecioEstimado, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addComponent(jLabel6)
                 .addGap(18, 18, 18)
                 .addGroup(PanelReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelReservaLayout.createSequentialGroup()
-                        .addGroup(PanelReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox3)
-                            .addComponent(jCheckBox1))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(PanelReservaLayout.createSequentialGroup()
-                        .addComponent(jCheckBox2)
-                        .addGap(31, 185, Short.MAX_VALUE))))
+                    .addComponent(jCheckBox2)
+                    .addComponent(jCheckBox1)
+                    .addComponent(jCheckBox3))
+                .addGap(112, 112, 112))
         );
         PanelReservaLayout.setVerticalGroup(
             PanelReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelReservaLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(PanelReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox1))
+                .addGroup(PanelReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelReservaLayout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addComponent(jCheckBox1))
+                    .addGroup(PanelReservaLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(PanelReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelReservaLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox3))
-                    .addGroup(PanelReservaLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addGroup(PanelReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
+                            .addComponent(jCheckBox2)
+                            .addComponent(jLabel6)
                             .addComponent(PrecioEstimado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(ConfirmarReserva)))
-                .addContainerGap(18, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelReservaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jCheckBox3)
+                            .addComponent(jLabel8)
+                            .addComponent(TextAbono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addComponent(ConfirmarReserva)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -303,7 +318,7 @@ public class ClienteFrame extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(11, Short.MAX_VALUE)
+                .addContainerGap(12, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -365,7 +380,7 @@ public class ClienteFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 979, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 981, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -417,15 +432,20 @@ public class ClienteFrame extends javax.swing.JFrame {
         codigoSesionSeleccionada = jTable1.getValueAt(fila, 0).toString();
         modelo.Sesion sesion = controlador.buscarSesionPorCodigo(codigoSesionSeleccionada);
 
-        if (sesion == null) {
+        if (sesion == null || !sesionEsReservable(sesion)) {
             javax.swing.JOptionPane.showMessageDialog(
-                this, "La sesión seleccionada ya no existe.", "Error",
-                javax.swing.JOptionPane.ERROR_MESSAGE
+                this,
+                "La sesión ya ha comenzado o ya ha finalizado.\nNo se puede reservar.",
+                "Sesión no reservable",
+                javax.swing.JOptionPane.WARNING_MESSAGE
             );
+            PanelReserva.setVisible(false);
+            ConfirmarReserva.setEnabled(false);
             cargarCartelera();
             return;
         }
-
+        
+        
         // Preparar spinner: mínimo 1, máximo plazas disponibles
         int max = Math.max(1, sesion.getPlazasDisponibles());
         jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 1, max, 1));
@@ -434,7 +454,7 @@ public class ClienteFrame extends javax.swing.JFrame {
         jCheckBox1.setSelected(false);
         jCheckBox2.setSelected(false);
         jCheckBox3.setSelected(false);
-
+        
         PanelReserva.setVisible(true);
         ConfirmarReserva.setEnabled(true);
 
@@ -456,6 +476,20 @@ public class ClienteFrame extends javax.swing.JFrame {
                 this, "Selecciona una sesión primero.", "Error",
                 javax.swing.JOptionPane.WARNING_MESSAGE
             );
+            return;
+        }
+        
+        modelo.Sesion sesion = controlador.buscarSesionPorCodigo(codigoSesionSeleccionada);
+        if (sesion == null || !sesionEsReservable(sesion)) {
+            javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "La sesión ya ha comenzado o ya ha finalizado.\nNo se puede reservar.",
+                "Sesión no reservable",
+                javax.swing.JOptionPane.WARNING_MESSAGE
+            );
+            PanelReserva.setVisible(false);
+            ConfirmarReserva.setEnabled(false);
+            cargarCartelera();
             return;
         }
 
@@ -516,6 +550,43 @@ public class ClienteFrame extends javax.swing.JFrame {
         // La columna 0 es "Codigo Reserva"
         String codigoReserva = tablaMisReservas.getValueAt(fila, 0).toString();
 
+        modelo.Reserva reserva = controlador.buscarReservaPorCodigo(codigoReserva);
+        if (reserva == null) {
+            javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "La reserva ya no existe.",
+                "No se pudo cancelar",
+                javax.swing.JOptionPane.WARNING_MESSAGE
+            );
+            cargarMisReservas();
+            return;
+        }
+
+        modelo.Sesion sesion = reserva.getSesion();
+
+        // Si ya terminó la película
+        if (sesionHaFinalizado(sesion)) {
+            javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "La película ya ha acabado.\nNo se puede cancelar la reserva.",
+                "No se pudo cancelar",
+                javax.swing.JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        // (Opcional) si está en curso
+        if (sesionEstaEnCurso(sesion)) {
+            javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "La película ya ha comenzado.\nNo se puede cancelar la reserva.",
+                "No se pudo cancelar",
+                javax.swing.JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        
         int confirmacion = javax.swing.JOptionPane.showConfirmDialog(
             this,
             "¿Seguro que quieres cancelar la reserva " + codigoReserva + "?\n" +
@@ -625,8 +696,8 @@ public class ClienteFrame extends javax.swing.JFrame {
                 r.getCodigoReserva(),                    // Código Reserva
                 s.getCodigoSesion(),                    // Código Sesión
                 s.getPelicula().getTitulo(),            // Película
-                s.getFecha(),                           // Fecha Sesión
-                s.getHoraInicio(),                      // Hora Sesión
+                FMT_FECHA.format(s.getFecha()),                          // Fecha Sesión
+                FMT_HORA.format(s.getHoraInicio()),                     // Hora Sesión
                 s.getSala().getNumero(),                // Sala
                 r.getNumEntradas(),                     // Entradas
                 r.getDescripcionExtras(),               // Extras
@@ -693,17 +764,46 @@ public class ClienteFrame extends javax.swing.JFrame {
         });
     }
 
+    private boolean sesionEsReservable(modelo.Sesion s) {
+        java.time.LocalDateTime inicio = java.time.LocalDateTime.of(s.getFecha(), s.getHoraInicio());
+        return inicio.isAfter(java.time.LocalDateTime.now())
+               && s.getEstado() == modelo.EstadoSesion.PROGRAMADA
+               && s.getPlazasDisponibles() > 0;
+    }
+
+    private java.time.LocalDateTime inicioSesion(modelo.Sesion s) {
+        return java.time.LocalDateTime.of(s.getFecha(), s.getHoraInicio());
+    }
+
+    private java.time.LocalDateTime finSesion(modelo.Sesion s) {
+        int durMin = s.getPelicula().getDuracionMinutos();
+        return inicioSesion(s).plusMinutes(durMin);
+    }
+
+    private boolean sesionHaFinalizado(modelo.Sesion s) {
+        // now >= fin
+        return !java.time.LocalDateTime.now().isBefore(finSesion(s));
+    }
+
+    private boolean sesionEstaEnCurso(modelo.Sesion s) {
+        java.time.LocalDateTime now = java.time.LocalDateTime.now();
+        java.time.LocalDateTime ini = inicioSesion(s);
+        java.time.LocalDateTime fin = finSesion(s);
+        return (now.isAfter(ini) || now.isEqual(ini)) && now.isBefore(fin);
+    }
+
     private void cargarCartelera() {
         javax.swing.table.DefaultTableModel model =
             (javax.swing.table.DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
 
-        // Género seleccionado
         String generoStr = (String) jComboBox1.getSelectedItem();
-        modelo.Genero genero = modelo.Genero.valueOf(generoStr);
+        boolean filtrarPorGenero = !"TODAS".equals(generoStr);
+        modelo.Genero genero = filtrarPorGenero ? modelo.Genero.valueOf(generoStr) : null;
 
         for (modelo.Sesion s : controlador.obtenerSesionesDisponibles()) {
-            if (s.getPelicula().getGenero() != genero) continue;
+            if (!sesionEsReservable(s)) continue;                 // (ver cambio 2)
+            if (filtrarPorGenero && s.getPelicula().getGenero() != genero) continue;
 
             modelo.Pelicula p = s.getPelicula();
 
@@ -716,8 +816,8 @@ public class ClienteFrame extends javax.swing.JFrame {
                 p.getTitulo(),                       // 1 Pelicula
                 p.getGenero(),                       // 2 Genero
                 p.getTipoProyeccion(),               // 3 Tipo (si no existe, ver nota abajo)
-                s.getFecha(),                        // 4 Fecha
-                s.getHoraInicio(),                   // 5 Hora
+                FMT_FECHA.format(s.getFecha()),      // 4 Fecha
+                FMT_HORA.format(s.getHoraInicio()),  // 5 Hora
                 s.getSala().getNumero(),             // 6 Sala
                 String.format("%.2f €", precioBase), // 7 Precio Base
                 String.format("%.2f €", recargo),    // 8 Recargo
@@ -783,6 +883,7 @@ public class ClienteFrame extends javax.swing.JFrame {
     private javax.swing.JPanel PanelReserva;
     private javax.swing.JTextField PrecioEstimado;
     private javax.swing.JButton RealizarReserva;
+    private javax.swing.JTextField TextAbono;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
@@ -794,6 +895,7 @@ public class ClienteFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
