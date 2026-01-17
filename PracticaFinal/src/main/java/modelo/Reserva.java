@@ -6,8 +6,6 @@ package modelo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Representa una reserva básica (sin extras)

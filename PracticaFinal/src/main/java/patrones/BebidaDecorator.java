@@ -10,6 +10,7 @@ import modelo.Reserva;
  * Decorador concreto: Añade bebida (2€)
  */
 public class BebidaDecorator extends ReservaDecorator {
+    private static final long serialVersionUID = 1L;
     private static final double PRECIO = 2.0;
     
     public BebidaDecorator(Reserva reserva) {

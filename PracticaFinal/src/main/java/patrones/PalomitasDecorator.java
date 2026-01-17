@@ -10,6 +10,7 @@ import modelo.Reserva;
  * Decorador concreto: Añade palomitas (3€)
  */
 public class PalomitasDecorator extends ReservaDecorator {
+    private static final long serialVersionUID = 1L;
     private static final double PRECIO = 3.0;
     
     public PalomitasDecorator(Reserva reserva) {

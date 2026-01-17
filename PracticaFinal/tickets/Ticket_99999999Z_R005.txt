@@ -4,7 +4,7 @@
 ==========================================
 
 Código de Reserva: R005
-Fecha de Reserva: 07/01/2026
+Fecha de Reserva: 17/01/2026
 
 DATOS DEL CLIENTE:
   Nombre: Ana Martín
@@ -14,7 +14,7 @@ DATOS DEL CLIENTE:
 DETALLES DE LA SESIÓN:
   Película: Avatar 2
   Tipo: 2D
-  Fecha: 08/01/2026
+  Fecha: 18/01/2026
   Hora: 19:00
   Sala: 3
   Número de Entradas: 1

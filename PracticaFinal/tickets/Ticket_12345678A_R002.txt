@@ -4,7 +4,7 @@
 ==========================================
 
 Código de Reserva: R002
-Fecha de Reserva: 07/01/2026
+Fecha de Reserva: 17/01/2026
 
 DATOS DEL CLIENTE:
   Nombre: Juan Pérez
@@ -14,7 +14,7 @@ DATOS DEL CLIENTE:
 DETALLES DE LA SESIÓN:
   Película: Spider-Man 3D
   Tipo: 3D
-  Fecha: 08/01/2026
+  Fecha: 18/01/2026
   Hora: 20:00
   Sala: 2
   Número de Entradas: 1

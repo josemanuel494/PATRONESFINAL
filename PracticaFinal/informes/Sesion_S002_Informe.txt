@@ -12,7 +12,7 @@ PELÍCULA PROYECTADA:
   Duración: 148 min
 
 INFORMACIÓN DE LA SESIÓN:
-  Fecha: 08/01/2026
+  Fecha: 18/01/2026
   Hora: 20:00
   Sala: 2
   Estado: Programada

@@ -10,6 +10,7 @@ import modelo.Reserva;
  * Decorador concreto: Añade combo palomitas+bebida (4€)
  */
 public class ComboDecorator extends ReservaDecorator {
+    private static final long serialVersionUID = 1L;
     private static final double PRECIO = 4.0;
     
     public ComboDecorator(Reserva reserva) {

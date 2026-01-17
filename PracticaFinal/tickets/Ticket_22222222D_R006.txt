@@ -3,27 +3,27 @@
               CINE OCINE                  
 ==========================================
 
-Código de Reserva: R001
+Código de Reserva: R006
 Fecha de Reserva: 17/01/2026
 
 DATOS DEL CLIENTE:
-  Nombre: Juan Pérez
-  DNI: 12345678A
-  Tipo de Abono: Básico
+  Nombre: Paco
+  DNI: 22222222D
+  Tipo de Abono: VIP
 
 DETALLES DE LA SESIÓN:
-  Película: Spider-Man 3D
-  Tipo: 3D
-  Fecha: 18/01/2026
-  Hora: 20:00
-  Sala: 2
-  Número de Entradas: 2
+  Película: Avatar 2
+  Tipo: 2D
+  Fecha: 08/01/2026
+  Hora: 19:00
+  Sala: 3
+  Número de Entradas: 1
 
 EXTRAS:
-  Sin extras
+  Palomitas, Bebida
 
-PRECIO TOTAL: 18,00€
-  (Descuento Básico aplicado)
+PRECIO TOTAL: 12,20€
+  (Descuento VIP aplicado)
 
 Gracias por confiar en Ocine
 Centro Comercial Quadernillos

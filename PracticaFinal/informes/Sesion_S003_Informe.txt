@@ -1,0 +1,32 @@
+==========================================
+          INFORME DE SESIÓN               
+              CINE OCINE                  
+==========================================
+
+Código de Sesión: S003
+
+PELÍCULA PROYECTADA:
+  Título: Avatar 2
+  Director: James Cameron
+  Tipo: 2D
+  Duración: 192 min
+
+INFORMACIÓN DE LA SESIÓN:
+  Fecha: 08/01/2026
+  Hora: 19:00
+  Sala: 3
+  Estado: Programada
+
+ESTADÍSTICAS:
+  Aforo Total: 30 butacas
+  Entradas Vendidas: 1
+  Plazas Disponibles: 29
+  Porcentaje de Ocupación: 3,33%
+
+INGRESOS:
+  Precio Base: 12,00€
+  Recargo Proyección: 0,00€
+  Ingresos Totales: 7,20€
+
+Gracias por confiar en Ocine
+Centro Comercial Quadernillos

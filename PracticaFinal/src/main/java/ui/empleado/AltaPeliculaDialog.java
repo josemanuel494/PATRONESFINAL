@@ -23,9 +23,8 @@ public class AltaPeliculaDialog extends javax.swing.JDialog {
         setTitle("Alta de Película");
         setLocationRelativeTo(parent);
 
-        // Rellenar combos
         cmbGenero.removeAllItems();
-        for (Genero g : Genero.values()) cmbGenero.addItem(g.toString());
+        for (Genero g : Genero.values()) cmbGenero.addItem(g);
 
         cmbTipo.removeAllItems();
         cmbTipo.addItem("2D");
@@ -54,7 +53,7 @@ public class AltaPeliculaDialog extends javax.swing.JDialog {
 
         jLabel6 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
-        cmbGenero = new javax.swing.JComboBox<>();
+        cmbGenero = new javax.swing.JComboBox();
         txtTitulo = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -76,7 +75,7 @@ public class AltaPeliculaDialog extends javax.swing.JDialog {
 
         jLabel6.setText("Género");
 
-        cmbGenero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbGenero.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel7.setText("Tipo");
 
@@ -161,9 +160,9 @@ public class AltaPeliculaDialog extends javax.swing.JDialog {
                     .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbGenero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel7))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel2))
                 .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -210,7 +209,6 @@ public class AltaPeliculaDialog extends javax.swing.JDialog {
         String tipo = (String) cmbTipo.getSelectedItem();
         String sinopsis = txtSinopsis.getText().trim();
 
-        // Validación mínima
         if (codigo.isEmpty() || titulo.isEmpty() || director.isEmpty() || genero == null || tipo == null) {
             JOptionPane.showMessageDialog(this, "Rellena los campos obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -238,7 +236,7 @@ public class AltaPeliculaDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnCrear;
-    private javax.swing.JComboBox<String> cmbGenero;
+    private javax.swing.JComboBox cmbGenero;
     private javax.swing.JComboBox<String> cmbTipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
