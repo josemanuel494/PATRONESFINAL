@@ -1,0 +1,29 @@
+==========================================
+           TICKET DE RESERVA              
+              CINE OCINE                  
+==========================================
+
+Código de Reserva: R007
+Fecha de Reserva: 17/01/2026
+
+DATOS DEL CLIENTE:
+  Nombre: Juan Pérez
+  DNI: 12345678A
+  Tipo de Abono: Básico
+
+DETALLES DE LA SESIÓN:
+  Película: Dune IMAX
+  Tipo: IMAX
+  Fecha: 18/01/2026
+  Hora: 18:00
+  Sala: 1
+  Número de Entradas: 1
+
+EXTRAS:
+  Palomitas, Bebida
+
+PRECIO TOTAL: 17,60€
+  (Descuento Básico aplicado)
+
+Gracias por confiar en Ocine
+Centro Comercial Quadernillos

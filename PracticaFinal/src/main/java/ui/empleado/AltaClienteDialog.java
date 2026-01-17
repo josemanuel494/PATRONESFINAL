@@ -14,9 +14,14 @@ import modelo.TipoAbono;
  * @author Usuario
  */
 public class AltaClienteDialog extends javax.swing.JDialog {
-
+    // Alta cliente
     private final ControladorCine controlador;
     private boolean creado = false;
+    // Modificación cliente
+    private boolean modoEdicion = false;
+    private String dniEdicion;
+
+    
     /**
      * Creates new form AltaClienteDialog
      */
@@ -38,6 +43,27 @@ public class AltaClienteDialog extends javax.swing.JDialog {
     public boolean isCreado() {
         return creado;
     }
+    
+    public void setModoEdicion(modelo.Cliente c) {
+        modoEdicion = true;
+        dniEdicion = c.getDni();
+
+        setTitle("Modificar cliente");
+
+        txtDni.setText(c.getDni());
+        txtDni.setEnabled(false);
+
+        txtNombre.setText(c.getNombreCompleto());
+        txtEmail.setText(c.getEmail());
+        txtTelefono.setText(c.getTelefono());
+        cmbAbono.setSelectedItem(c.getTipoAbono());
+
+        // Contraseña: dejar vacío significa "no cambiar"
+        pwdContrasena.setText("");
+
+        btnCrear.setText("Guardar cambios");
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -62,6 +88,7 @@ public class AltaClienteDialog extends javax.swing.JDialog {
         cmbAbono = new javax.swing.JComboBox();
         btnCrear = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        lblInfoPwd = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -93,6 +120,8 @@ public class AltaClienteDialog extends javax.swing.JDialog {
             }
         });
 
+        lblInfoPwd.setText("Deja en blanco para no cambiarla");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -109,20 +138,25 @@ public class AltaClienteDialog extends javax.swing.JDialog {
                     .addComponent(jLabel4)
                     .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addComponent(pwdContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cmbAbono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(84, 84, 84))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(106, 106, 106)
-                        .addComponent(btnCrear)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                        .addComponent(btnCancelar)
-                        .addGap(27, 27, 27))))
+                        .addGap(134, 134, 134))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblInfoPwd))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(106, 106, 106)
+                                .addComponent(btnCrear)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                                .addComponent(btnCancelar)))
+                        .addGap(84, 84, 84))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,16 +169,20 @@ public class AltaClienteDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pwdContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmbAbono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(lblInfoPwd))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbAbono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -155,7 +193,7 @@ public class AltaClienteDialog extends javax.swing.JDialog {
                         .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnCrear)
                             .addComponent(btnCancelar))
@@ -174,26 +212,45 @@ public class AltaClienteDialog extends javax.swing.JDialog {
         String nombre = txtNombre.getText().trim();
         String email = txtEmail.getText().trim();
         String telefono = txtTelefono.getText().trim();
-        String contrasena = new String(pwdContrasena.getPassword());
+        String contrasena = new String(pwdContrasena.getPassword()).trim();
         TipoAbono abono = (TipoAbono) cmbAbono.getSelectedItem();
 
-        if (dni.isEmpty() || nombre.isEmpty() || email.isEmpty() || telefono.isEmpty() || contrasena.isEmpty() || abono == null) {
+        if (dni.isEmpty() || nombre.isEmpty() || email.isEmpty() || telefono.isEmpty() || abono == null) {
             JOptionPane.showMessageDialog(this, "Rellena todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+
         if (!email.contains("@")) {
             JOptionPane.showMessageDialog(this, "Email inválido.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
+        // Contraseña obligatoria SOLO en alta
+        if (!modoEdicion && contrasena.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Introduce contraseña.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         try {
-            controlador.registrarCliente(dni, nombre, email, telefono, contrasena, abono);
-            creado = true;
-            JOptionPane.showMessageDialog(this, "Cliente creado correctamente.");
-            dispose();
+            if (!modoEdicion) {
+                // Alta
+                controlador.registrarCliente(dni, nombre, email, telefono, contrasena, abono);
+                creado = true;
+                JOptionPane.showMessageDialog(this, "Cliente creado correctamente.");
+                dispose();
+            } else {
+                // Edición
+                controlador.modificarCliente(dniEdicion, nombre, email, telefono, contrasena, abono);
+                creado = true;
+                JOptionPane.showMessageDialog(this, "Cliente modificado correctamente.");
+                dispose();
+            }
 
         } catch (ClienteDuplicadoException ex) {
             JOptionPane.showMessageDialog(this, "Ya existe un cliente con ese DNI.", "Duplicado", JOptionPane.ERROR_MESSAGE);
+
+        } catch (excepciones.EntidadNoEncontradaException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "No encontrado", JOptionPane.ERROR_MESSAGE);
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -211,6 +268,7 @@ public class AltaClienteDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel lblInfoPwd;
     private javax.swing.JPasswordField pwdContrasena;
     private javax.swing.JTextField txtDni;
     private javax.swing.JTextField txtEmail;
