@@ -1,0 +1,29 @@
+==========================================
+           TICKET DE RESERVA              
+              CINE OCINE                  
+==========================================
+
+Código de Reserva: R5708
+Fecha de Reserva: 17/01/2026
+
+DATOS DEL CLIENTE:
+  Nombre: Dani
+  DNI: 22222222D
+  Tipo de Abono: Básico
+
+DETALLES DE LA SESIÓN:
+  Película: Cars
+  Tipo: 2D
+  Fecha: 17/01/2026
+  Hora: 20:00
+  Sala: 1
+  Número de Entradas: 2
+
+EXTRAS:
+  Sin extras
+
+PRECIO TOTAL: 14,40€
+  (Descuento Básico aplicado)
+
+Gracias por confiar en Ocine
+Centro Comercial Quadernillos

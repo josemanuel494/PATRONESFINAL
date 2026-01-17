@@ -1,0 +1,32 @@
+==========================================
+          INFORME DE SESIÓN               
+              CINE OCINE                  
+==========================================
+
+Código de Sesión: S005
+
+PELÍCULA PROYECTADA:
+  Título: Dune IMAX
+  Director: Denis Villeneuve
+  Tipo: IMAX
+  Duración: 155 min
+
+INFORMACIÓN DE LA SESIÓN:
+  Fecha: 17/01/2026
+  Hora: 17:00
+  Sala: 1
+  Estado: Programada
+
+ESTADÍSTICAS:
+  Aforo Total: 80 butacas
+  Entradas Vendidas: 0
+  Plazas Disponibles: 80
+  Porcentaje de Ocupación: 0,00%
+
+INGRESOS:
+  Precio Base: 11,50€
+  Recargo Proyección: 4,00€
+  Ingresos Totales: 0,00€
+
+Gracias por confiar en Ocine
+Centro Comercial Quadernillos

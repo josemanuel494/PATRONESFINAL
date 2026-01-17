@@ -25,6 +25,15 @@ public class ClienteFrame extends javax.swing.JFrame {
         this.controlador = controlador;
         this.cliente = cliente;
         initComponents();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                volverALogin();
+            }
+        });
+        
         configurarTablaCartelera();
         PanelReserva.setVisible(false);
         RealizarReserva.setEnabled(false);
@@ -45,7 +54,23 @@ public class ClienteFrame extends javax.swing.JFrame {
         });
         setTitle("OCine - Cliente");
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+    
+    private void volverALogin() {
+        int resp = javax.swing.JOptionPane.showConfirmDialog(
+                this,
+                "¿Cerrar sesión y volver al login?",
+                "Salir",
+                javax.swing.JOptionPane.YES_NO_OPTION
+        );
+        if (resp != javax.swing.JOptionPane.YES_OPTION) return;
+
+        controlador.logout();
+
+        ui.Login login = new ui.Login(controlador);
+        login.setVisible(true);
+
+        dispose();
     }
 
     /**
